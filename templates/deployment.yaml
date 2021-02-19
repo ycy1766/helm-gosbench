@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gosbench.fullname" . }}-server
+  labels:
+    app: gosbench-server
+    stack: gosbench
+    type: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gosbench-server
+  template:
+    metadata:
+      labels:
+        app: gosbench-server
+        stack: gosbench
+        type: server
+    spec:
+      containers:
+        - name: server
+          image: "{{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          command: ['./main','-d', '-c', '/app/config/config.yml']
+          ports:
+            - containerPort: 2000
+          volumeMounts:
+            - name: gosbench-config
+              mountPath: /app/config
+      volumes:
+        - name: gosbench-config
+          configMap:
+            name: gosbench-config

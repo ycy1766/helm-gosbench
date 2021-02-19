@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gosbench-config
+  labels:
+    app: gosbench-monitoring
+    stack: gosbench
+data:
+  config.yml: |-
+    s3_config:
+      - access_key: {{ .Values.s3_config.access_key }}
+        secret_key: {{ .Values.s3_config.secret_key }}
+        region: {{ .Values.s3_config.region }}
+        endpoint: {{ .Values.s3_config.endpoint }}
+        skipSSLverify: {{ .Values.s3_config.skipSSLverify }}
+    grafana_config:
+      endpoint: {{ .Values.grafana_config.endpoint }}
+      username: {{ .Values.grafana_config.username }}
+      password: {{ .Values.grafana_config.password }}
+    tests:
+      - name: {{ .Values.tests.name }}
+        read_weight: {{ .Values.tests.read_weight }}
+        write_weight: {{ .Values.tests.write_weight }}
+        delete_weight: {{ .Values.tests.delete_weight }}
+        list_weight: {{ .Values.tests.list_weight }}
+        objects:
+          size_min: {{ .Values.tests.objects.size_min }}
+          size_max: 1000
+          part_size: 0
+          size_distribution: random
+          unit: KB
+          number_min: 100
+          number_max: 100
+          number_distribution: constant
+        buckets:
+          number_min: 1
+          number_max: 10
+          number_distribution: constant
+        bucket_prefix: cy-gosbench1-
+        object_prefix: obj
+        stop_with_runtime:
+        stop_with_ops: 3000
+        workers: 4
+        workers_share_buckets: True
+        parallel_clients: 3
+        clean_after: true

@@ -1,0 +1,56 @@
+
+############################################
+##### Config worker gosbench ###############
+############################################
+worker:
+  - name: worker1
+  - name: worker2
+  - name: worker3
+  - name: worker4
+###########################################
+#### Config gosbench ######################
+###########################################
+s3_config:
+  access_key: 
+  secret_key: 
+  region: cy-store
+  endpoint: https://rgw.cyuucloud.xyz
+  skipSSLverify: false
+grafana_config:
+  endpoint: http://10.10.1.1:3000
+  username: cyyoon
+  password: Cloud!@34
+tests:
+  name: EverythingWorks
+  read_weight: 20
+  write_weight: 80
+  delete_weight: 30
+  list_weight: 10
+  objects:
+    size_min: 5
+
+
+###########################################
+#### Config gosbench server ###############
+###########################################
+server:
+  image:
+    registry: quay.io
+    repository: mulbc/gosbench-server
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 2000
+    targetPort: 2000
+    nodePort: 32000
+    selector:
+      app: gosbench-server
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
