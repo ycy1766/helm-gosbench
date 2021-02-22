@@ -1,57 +1,80 @@
+############################################
+##### Config worker job gosbench ###########
+############################################
+worker_job:
+  - name: worker1
+    nodeselector: job1
+    port: "8888"
+  - name: worker2
+    port: "8889"
+    nodeselector: job1
+  - name: worker3
+    nodeselector: job2
+    port: "8888"
+  - name: worker4
+    nodeselector: job2
+    port: "8889"
 
 ############################################
 ##### Config worker gosbench ###############
 ############################################
 worker:
-  - name: worker1
-  - name: worker2
-  - name: worker3
-  - name: worker4
+  image:
+    registry: quay.io
+    repository: mulbc/gosbench-worker
+    tag: latest
+    pullPolicy: IfNotPresent
+ 
 ###########################################
 #### Config gosbench ######################
 ###########################################
-s3_config:
-  access_key: 
-  secret_key: 
-  region: cy-store
-  endpoint: https://rgw.cyuucloud.xyz
-  skipSSLverify: false
-grafana_config:
-  endpoint: http://10.10.1.1:3000
-  username: cyyoon
-  password:
-tests:
-  name: EverythingWorks
-  read_weight: 20
-  write_weight: 80
-  delete_weight: 30
-  list_weight: 10
-  objects:
-    size_min: 5
-    size_max: 1000
-    part_size: 0
-    size_distribution: random
-    unit: KB
-    number_min: 100
-    number_max: 100
-    number_distribution: constant
-  buckets:
-    number_min: 1
-    number_max: 10
-    number_distribution: constant
-  bucket_prefix: cy-gosbench1-
-  object_prefix: obj
-  stop_with_runtime:
-  stop_with_ops: 3000
-  workers: 4
-  workers_share_buckets: True
-  parallel_clients: 3
-  clean_after: true
+gosbench_config: 
+  name: gosbench-config
+  s3:
+    access_key: 
+    secret_key: 
+    region: cy-store
+    endpoint: https://rgw.cyuucloud.xyz
+    skipSSLverify: false
+  grafana:
+    endpoint: http://10.10.1.1:3000
+    username: cyyoon
+    password: 
+  tests:
+    name: EverythingWorks
+    read_weight: 20
+    write_weight: 80
+    delete_weight: 30
+    list_weight: 10
+    objects:
+      size_min: 5
+      size_max: 1000
+      part_size: 0
+      size_distribution: random
+      unit: KB
+      number_min: 100
+      number_max: 100
+      number_distribution: constant
+    buckets:
+      number_min: 1
+      number_max: 10
+      number_distribution: constant
+    bucket_prefix: cy-gosbench1-
+    object_prefix: obj
+    stop_with_runtime:
+    stop_with_ops: 3000
+    workers_share_buckets: True
+    parallel_clients: 3
+    clean_after: true
+    workers: 4
 
 ###########################################
 #### Config gosbench server ###############
 ###########################################
 server:
+  container:
+    port: 2000
+    config_path: /app/config
   image:
     registry: quay.io
     repository: mulbc/gosbench-server
@@ -59,16 +82,7 @@ server:
     pullPolicy: IfNotPresent
   service:
     type: NodePort
-    port: 2000
-    targetPort: 2000
     nodePort: 32000
     selector:
       app: gosbench-server
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
+  endpoint: 10.10.2.15
