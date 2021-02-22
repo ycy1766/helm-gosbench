@@ -44,11 +44,19 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 
 
 {{/*
-service Selector labels
+server labels
 */}}
 {{- define "gosbench.server.selectorLabels" -}}
-app: gosbench-server
+app: gosbench-server 
 {{- end }}
+
+{{/*
+worker labels
+*/}}
+{{- define "gosbench.worker.selectorLabels" -}}
+app: gosbench-worker 
+{{- end }}
+
 
 {{/*
 Selector labels
@@ -57,4 +65,7 @@ Selector labels
 app.kubernetes.io/name: {{ include "gosbench.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+
+
 

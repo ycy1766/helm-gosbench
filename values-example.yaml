@@ -19,6 +19,7 @@ worker_job:
 ##### Config worker gosbench ###############
 ############################################
 worker:
+  name: worker      
   image:
     registry: quay.io
     repository: mulbc/gosbench-worker
@@ -39,7 +40,7 @@ gosbench_config:
   grafana:
     endpoint: http://10.10.1.1:3000
     username: cyyoon
-    password: 
+    password:
   tests:
     name: EverythingWorks
     read_weight: 20
@@ -72,6 +73,7 @@ gosbench_config:
 #### Config gosbench server ###############
 ###########################################
 server:
+  name: server 
   container:
     port: 2000
     config_path: /app/config
