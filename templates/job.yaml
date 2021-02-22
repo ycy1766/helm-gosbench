@@ -1,42 +1,27 @@
-{{- range $worker := .Values.worker }}
+{{- $root := . -}} 
+{{ range $worker := .Values.worker_job }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ $worker.name }}
   labels:
     app: gosbench-worker
-    stack: gosbench
-    type: worker
 spec:
   template:
     metadata:
       labels:
         app: gosbench-worker
-        stack: gosbench
-        type: worker
     spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 10
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: type
-                  operator: In
-                  values:
-                  - worker
-              topologyKey: kubernetes.io/hostname
+      nodeSelector:
+        worker: {{ $worker.nodeselector }}
       containers:
-        - name: gosbench-worker
-          image: quay.io/mulbc/gosbench-worker:latest
-          imagePullPolicy: Always
-          #command: ['./main', '-s', 'gosbench-server:2000']
-          command: ['./main', '-s', '10.10.1.14:32000']
+        - name: {{ $worker.name }}
+          image: "{{ $root.Values.worker.image.registry }}/{{ $root.Values.worker.image.repository }}:{{ $root.Values.worker.image.tag }}"
+          imagePullPolicy: {{ $root.Values.worker.image.pullPolicy }}
+          command: ['./main', '-s', '{{ $root.Values.server.endpoint }}:{{ $root.Values.server.service.nodePort }}' , '-p', '{{ $worker.port }}']
           ports:
-            - containerPort: 8888
+            - containerPort: {{ $worker.port }}
       hostNetwork: true
       restartPolicy: Never
-
 ---
 {{- end }}

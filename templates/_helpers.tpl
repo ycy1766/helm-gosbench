@@ -43,9 +43,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 
-
-
-
 {{/*
 service Selector labels
 */}}

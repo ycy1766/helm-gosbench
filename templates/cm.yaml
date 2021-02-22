@@ -2,46 +2,45 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gosbench-config
+  name: {{ .Values.gosbench_config.name }}
   labels:
-    app: gosbench-monitoring
-    stack: gosbench
+    app: gosbench-config
 data:
   config.yml: |-
     s3_config:
-      - access_key: {{ .Values.s3_config.access_key }}
-        secret_key: {{ .Values.s3_config.secret_key }}
-        region: {{ .Values.s3_config.region }}
-        endpoint: {{ .Values.s3_config.endpoint }}
-        skipSSLverify: {{ .Values.s3_config.skipSSLverify }}
+      - access_key: {{ .Values.gosbench_config.s3.access_key }}
+        secret_key: {{ .Values.gosbench_config.s3.secret_key }}
+        region: {{ .Values.gosbench_config.s3.region }}
+        endpoint: {{ .Values.gosbench_config.s3.endpoint }}
+        skipSSLverify: {{ .Values.gosbench_config.s3.skipSSLverify }}
     grafana_config:
-      endpoint: {{ .Values.grafana_config.endpoint }}
-      username: {{ .Values.grafana_config.username }}
-      password: {{ .Values.grafana_config.password }}
+      endpoint: {{ .Values.gosbench_config.grafana.endpoint }}
+      username: {{ .Values.gosbench_config.grafana.username }}
+      password: {{ .Values.gosbench_config.grafana.password }}
     tests:
-      - name: {{ .Values.tests.name }}
-        read_weight: {{ .Values.tests.read_weight }}
-        write_weight: {{ .Values.tests.write_weight }}
-        delete_weight: {{ .Values.tests.delete_weight }}
-        list_weight: {{ .Values.tests.list_weight }}
+      - name: {{ .Values.gosbench_config.tests.name }}
+        read_weight: {{ .Values.gosbench_config.tests.read_weight }}
+        write_weight: {{ .Values.gosbench_config.tests.write_weight }}
+        delete_weight: {{ .Values.gosbench_config.tests.delete_weight }}
+        list_weight: {{ .Values.gosbench_config.tests.list_weight }}
         objects:
-          size_min: {{ .Values.tests.objects.size_min }}
-          size_max: {{ .Values.tests.objects.size_max }}
-          part_size: {{ .Values.tests.objects.part_size }}
-          size_distribution: {{ .Values.tests.objects.size_distribution }}
-          unit: {{ .Values.tests.objects.unit }}
-          number_min: {{ .Values.tests.objects.number_min }}
-          number_max: {{ .Values.tests.objects.number_max }}
-          number_distribution: {{ .Values.tests.objects.number_distribution }}
+          size_min: {{ .Values.gosbench_config.tests.objects.size_min }}
+          size_max: {{ .Values.gosbench_config.tests.objects.size_max }}
+          part_size: {{ .Values.gosbench_config.tests.objects.part_size }}
+          size_distribution: {{ .Values.gosbench_config.tests.objects.size_distribution }}
+          unit: {{ .Values.gosbench_config.tests.objects.unit }}
+          number_min: {{ .Values.gosbench_config.tests.objects.number_min }}
+          number_max: {{ .Values.gosbench_config.tests.objects.number_max }}
+          number_distribution: {{ .Values.gosbench_config.tests.objects.number_distribution }}
         buckets:
-          number_min: {{ .Values.tests.buckets.number_min }}
-          number_max: {{ .Values.tests.buckets.number_max }}
-          number_distribution: {{ .Values.tests.buckets.number_distribution }}
-        bucket_prefix: {{ .Values.tests.bucket_prefix }}
-        object_prefix: {{ .Values.tests.object_prefix }}
-        stop_with_runtime: {{ .Values.tests.stop_with_runtime }}
-        stop_with_ops: {{ .Values.tests.stop_with_ops }}
-        workers: {{ .Values.tests.workers }}
-        workers_share_buckets: {{ .Values.tests.workers_share_buckets }}
-        parallel_clients: {{ .Values.tests.parallel_clients }}
-        clean_after: {{ .Values.tests.clean_after }}
+          number_min: {{ .Values.gosbench_config.tests.buckets.number_min }}
+          number_max: {{ .Values.gosbench_config.tests.buckets.number_max }}
+          number_distribution: {{ .Values.gosbench_config.tests.buckets.number_distribution }}
+        bucket_prefix: {{ .Values.gosbench_config.tests.bucket_prefix }}
+        object_prefix: {{ .Values.gosbench_config.tests.object_prefix }}
+        stop_with_runtime: {{ .Values.gosbench_config.tests.stop_with_runtime }}
+        stop_with_ops: {{ .Values.gosbench_config.tests.stop_with_ops }}
+        workers: {{ .Values.gosbench_config.tests.workers }}
+        workers_share_buckets: {{ .Values.gosbench_config.tests.workers_share_buckets }}
+        parallel_clients: {{ .Values.gosbench_config.tests.parallel_clients }}
+        clean_after: {{ .Values.gosbench_config.tests.clean_after }}

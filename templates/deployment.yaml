@@ -5,8 +5,6 @@ metadata:
   name: {{ include "gosbench.fullname" . }}-server
   labels:
     app: gosbench-server
-    stack: gosbench
-    type: server
 spec:
   replicas: 1
   selector:
@@ -16,20 +14,18 @@ spec:
     metadata:
       labels:
         app: gosbench-server
-        stack: gosbench
-        type: server
     spec:
       containers:
         - name: server
           image: "{{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
-          command: ['./main','-d', '-c', '/app/config/config.yml']
+          command: ['./main', '-p', '{{ .Values.server.container.port }}', '-d', '-c', '{{ .Values.server.container.config_path }}/config.yml']
           ports:
-            - containerPort: 2000
+            - containerPort: {{ .Values.server.container.port }}
           volumeMounts:
-            - name: gosbench-config
-              mountPath: /app/config
+            - name: {{ .Values.gosbench_config.name }}
+              mountPath: {{ .Values.server.container.config_path }}
       volumes:
-        - name: gosbench-config
+        - name: {{ .Values.gosbench_config.name }}
           configMap:
-            name: gosbench-config
+            name: {{ .Values.gosbench_config.name }}

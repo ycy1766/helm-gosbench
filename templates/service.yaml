@@ -7,8 +7,8 @@ metadata:
 spec:
   type: {{ .Values.server.service.type }}
   ports:
-    - port: {{ .Values.server.service.port }}
-      targetPort: {{ .Values.server.service.targetPort }}
+    - port: {{ .Values.server.container.port }}
+      targetPort: {{ .Values.server.container.targetPort }}
       nodePort: {{ .Values.server.service.nodePort }}
   selector:
     {{- include "gosbench.server.selectorLabels" . | nindent 4 }}
