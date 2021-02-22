@@ -1,6 +1,7 @@
 
 This project is based on https://github.com/mulbc/gosbench and uses helm for flexible management in kubernetes environment.
 
+Modify the values.yaml file and perform a test using gosbench with helm
 example 
 ```
 # cp values-example.yaml values.yaml
@@ -28,4 +29,9 @@ job.batch/worker1   0/1           69s        69s
 job.batch/worker2   0/1           69s        69s
 job.batch/worker3   0/1           69s        69s
 job.batch/worker4   0/1           69s        69s
+```
+
+When the test is finished, uninstall the helm chart.
+```
+# helm uninstall test
 ```
