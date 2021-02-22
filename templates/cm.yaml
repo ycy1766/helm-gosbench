@@ -26,22 +26,22 @@ data:
         list_weight: {{ .Values.tests.list_weight }}
         objects:
           size_min: {{ .Values.tests.objects.size_min }}
-          size_max: 1000
-          part_size: 0
-          size_distribution: random
-          unit: KB
-          number_min: 100
-          number_max: 100
-          number_distribution: constant
+          size_max: {{ .Values.tests.objects.size_max }}
+          part_size: {{ .Values.tests.objects.part_size }}
+          size_distribution: {{ .Values.tests.objects.size_distribution }}
+          unit: {{ .Values.tests.objects.unit }}
+          number_min: {{ .Values.tests.objects.number_min }}
+          number_max: {{ .Values.tests.objects.number_max }}
+          number_distribution: {{ .Values.tests.objects.number_distribution }}
         buckets:
-          number_min: 1
-          number_max: 10
-          number_distribution: constant
-        bucket_prefix: cy-gosbench1-
-        object_prefix: obj
-        stop_with_runtime:
-        stop_with_ops: 3000
-        workers: 4
-        workers_share_buckets: True
-        parallel_clients: 3
-        clean_after: true
+          number_min: {{ .Values.tests.buckets.number_min }}
+          number_max: {{ .Values.tests.buckets.number_max }}
+          number_distribution: {{ .Values.tests.buckets.number_distribution }}
+        bucket_prefix: {{ .Values.tests.bucket_prefix }}
+        object_prefix: {{ .Values.tests.object_prefix }}
+        stop_with_runtime: {{ .Values.tests.stop_with_runtime }}
+        stop_with_ops: {{ .Values.tests.stop_with_ops }}
+        workers: {{ .Values.tests.workers }}
+        workers_share_buckets: {{ .Values.tests.workers_share_buckets }}
+        parallel_clients: {{ .Values.tests.parallel_clients }}
+        clean_after: {{ .Values.tests.clean_after }}

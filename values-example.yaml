@@ -19,7 +19,7 @@ s3_config:
 grafana_config:
   endpoint: http://10.10.1.1:3000
   username: cyyoon
-  password: Cloud!@34
+  password:
 tests:
   name: EverythingWorks
   read_weight: 20
@@ -28,7 +28,25 @@ tests:
   list_weight: 10
   objects:
     size_min: 5
-
+    size_max: 1000
+    part_size: 0
+    size_distribution: random
+    unit: KB
+    number_min: 100
+    number_max: 100
+    number_distribution: constant
+  buckets:
+    number_min: 1
+    number_max: 10
+    number_distribution: constant
+  bucket_prefix: cy-gosbench1-
+  object_prefix: obj
+  stop_with_runtime:
+  stop_with_ops: 3000
+  workers: 4
+  workers_share_buckets: True
+  parallel_clients: 3
+  clean_after: true
 
 ###########################################
 #### Config gosbench server ###############
